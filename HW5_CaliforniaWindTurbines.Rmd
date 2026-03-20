@@ -1,0 +1,39 @@
+---
+title: "HW_5-California Wind Turbines"
+output: html_document
+date: "2026-03-20"
+---
+
+```{r setup, include=FALSE}
+# Load libraries
+library(ggplot2)
+library(mapdata)
+library(dplyr)
+
+# Set working directory
+setwd("C:/Users/user/Desktop/HW_5_DataViz")
+```
+
+```{r california-wind-map, echo=TRUE, message=FALSE, warning=FALSE}
+# (a) Load US map data and filter California
+states <- map_data("state")
+california <- states %>%
+  filter(region == "california")
+
+# (b) Load wind turbine data and filter turbines in California
+load("wind_turbines.rda")
+wind_ca <- wind_turbines %>%
+  filter(t_state == "CA")
+
+# (c) and (d) Plot California map and wind turbines
+ggplot() +
+  geom_polygon(data = california,
+               aes(x = long, y = lat, group = group),
+               fill = "blue",
+               color = "black") +
+  geom_point(data = wind_ca,
+             aes(x = xlong, y = ylat),
+             color = "orange",
+             size = 1) +
+  guides(fill = "none")
+```
